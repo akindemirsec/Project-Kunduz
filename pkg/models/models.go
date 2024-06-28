@@ -6,25 +6,29 @@ import (
 
 type User struct {
 	gorm.Model
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
+type LoginInput struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }
 
 type Cluster struct {
 	gorm.Model
 	Name   string  `json:"name"`
-	SBOMs  []SBOM  `json:"sboms"`
 	Assets []Asset `json:"assets"`
-}
-
-type SBOM struct {
-	gorm.Model
-	Name      string `json:"name"`
-	Data      string `json:"data"`
-	ClusterID uint   `json:"cluster_id"`
+	SBOMs  []SBOM  `json:"sboms"`
 }
 
 type Asset struct {
+	gorm.Model
+	Name      string `json:"name"`
+	ClusterID uint   `json:"cluster_id"`
+}
+
+type SBOM struct {
 	gorm.Model
 	Name      string `json:"name"`
 	ClusterID uint   `json:"cluster_id"`
@@ -40,9 +44,4 @@ type Alarm struct {
 	gorm.Model
 	Message   string `json:"message"`
 	ClusterID uint   `json:"cluster_id"`
-}
-
-type LoginInput struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
 }

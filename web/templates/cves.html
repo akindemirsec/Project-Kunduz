@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Kunduz - Home</title>
-    <link rel="stylesheet" href="/static/css/index.css">
+    <title>CVE Database - Project Kunduz</title>
+    <link rel="stylesheet" href="/static/css/cves.css">
 </head>
 <body>
     <header>
@@ -23,8 +23,11 @@
         </nav>
     </header>
     <main>
-        <h1>Welcome to Project Kunduz</h1>
-        <p>This platform helps you manage and monitor vulnerabilities in your assets and SBOMs.</p>
+        <h1>CVE Database</h1>
+        <button id="updateCVEButton">Update CVE Database</button>
+        <div id="cves-container">
+            <!-- CVE content will be loaded here -->
+        </div>
     </main>
     <script src="/static/js/main.js"></script>
 </body>

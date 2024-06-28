@@ -17,7 +17,7 @@ func Login(c *gin.Context) {
 	var input models.LoginInput
 	var user models.User
 
-	if err := c.ShouldBind(&input); err != nil {
+	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -38,12 +38,11 @@ func Login(c *gin.Context) {
 
 func Register(c *gin.Context) {
 	var user models.User
-	if err := c.ShouldBind(&user); err != nil {
+	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Admin kullanıcısını kontrol et
 	if user.Username == "admin" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Cannot register as admin"})
 		return
@@ -73,6 +72,11 @@ func DeleteUser(c *gin.Context) {
 
 	db.DB.Delete(&user)
 	c.JSON(http.StatusOK, gin.H{"message": "User deleted successfully"})
+}
+
+func Logout(c *gin.Context) {
+	c.SetCookie("session", "", -1, "/", "localhost", false, true)
+	c.Redirect(http.StatusFound, "/login")
 }
 
 func AuthMiddleware() gin.HandlerFunc {

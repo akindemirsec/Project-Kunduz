@@ -22,32 +22,46 @@ func main() {
 	// Load HTML templates
 	r.LoadHTMLGlob("web/templates/*")
 
-	// Serve index.html at the root URL
+	// Public routes
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
 
-	// Auth routes
 	r.GET("/login", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "login.html", nil)
 	})
 	r.POST("/login", auth.Login)
+
 	r.GET("/register", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "register.html", nil)
 	})
 	r.POST("/register", auth.Register)
 
+	db.ConnectDatabase()
+	createDefaultAdmin()
+
 	// Protected routes
 	protected := r.Group("/")
 	protected.Use(auth.AuthMiddleware())
 	{
-		db.ConnectDatabase()
-		createDefaultAdmin() // Default admin kullanıcıyı oluştur
+		protected.GET("/clusters", func(c *gin.Context) {
+			c.HTML(http.StatusOK, "clusters.html", nil)
+		})
+		protected.GET("/cves", func(c *gin.Context) {
+			c.HTML(http.StatusOK, "cves.html", nil)
+		})
+		protected.GET("/alarms", func(c *gin.Context) {
+			c.HTML(http.StatusOK, "alarms.html", nil)
+		})
+		protected.GET("/scan", func(c *gin.Context) {
+			c.HTML(http.StatusOK, "scan.html", nil)
+		})
+		protected.POST("/logout", auth.Logout)
 
-		auth.RegisterRoutes(protected)
-		cluster.RegisterRoutes(protected)
-		cve.RegisterRoutes(protected)
-		notification.RegisterRoutes(protected)
+		// Register additional protected routes for API endpoints
+		cluster.RegisterRoutes(protected.Group("/api"))
+		cve.RegisterRoutes(protected.Group("/api"))
+		notification.RegisterRoutes(protected.Group("/api"))
 	}
 
 	r.Run() // listen and serve on 0.0.0.0:8080
