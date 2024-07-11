@@ -17,10 +17,6 @@ type CVEEntry struct {
 	Description string `xml:"desc"`
 }
 
-type CVEList struct {
-	Entries []CVEEntry `xml:"item"`
-}
-
 func RegisterRoutes(r *gin.RouterGroup) {
 	r.GET("/cves", GetCVEs)
 	r.POST("/update_cves", UpdateCVEs)
