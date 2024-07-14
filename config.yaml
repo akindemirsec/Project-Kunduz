@@ -1,8 +1,0 @@
-database:
-  host: db
-  user: root
-  password: root
-  name: kunduz
-  port: 5432
-  sslmode: disable
-  timezone: Europe/Istanbul

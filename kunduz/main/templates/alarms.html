@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alarms - Project Kunduz</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <h1>Alarms</h1>
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'clusters' %}">Clusters</a></li>
+            <li><a href="{% url 'cves' %}">CVEs</a></li>
+            <li><a href="{% url 'alarms' %}">Alarms</a></li>
+            <li><a href="{% url 'scan' %}">Scan</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+    <ul id="alarms-list">
+        <!-- Alarm items will be added here dynamically -->
+    </ul>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/api/alarms/')
+            .then(response => response.json())
+            .then(data => {
+                const alarmsList = document.getElementById('alarms-list');
+                data.alarms.forEach(alarm => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = alarm.message;
+                    alarmsList.appendChild(listItem);
+                });
+            });
+    });
+    </script>
+</body>
+</html>

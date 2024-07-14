@@ -1,0 +1,61 @@
+<!-- templates/cves.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <title>CVE Update</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'clusters' %}">Clusters</a></li>
+            <li><a href="{% url 'cves' %}">CVEs</a></li>
+            <li><a href="{% url 'alarms' %}">Alarms</a></li>
+            <li><a href="{% url 'scan' %}">Scan</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+    <div>
+        <button id="startCveUpdateButton">Start CVE Update</button>
+        <div id="progressInfo">
+            <p>Download progress: <span id="progress">0</span>%</p>
+            <p>Last update: <span id="lastUpdate">{{ last_update }}</span></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('start-cve-update').addEventListener('click', function() {
+            fetch('/api/start_cve_update/')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status) {
+                        console.log(data.status);
+                    } else if (data.error) {
+                        console.error(data.error);
+                    }
+                });
+        });
+
+        const progressElement = document.getElementById('progress');
+        const lastUpdatedElement = document.getElementById('last-updated');
+
+        const socket = new WebSocket('ws://' + window.location.host + '/ws/progress/');
+
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            progressElement.innerText = 'Progress: ' + data.progress + '%';
+            // Update last updated timestamp
+            lastUpdatedElement.innerText = 'Last Updated: ' + new Date().toLocaleString();
+        };
+
+        socket.onclose = function(event) {
+            console.error('WebSocket closed unexpectedly');
+        };
+    </script>
+</body>
+</html>

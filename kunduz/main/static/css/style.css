@@ -1,0 +1,91 @@
+/* style.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2e2e2e; /* Dark gray background */
+    color: #fff; /* White text color */
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #b71c1c; /* Dark red color */
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    background-color: #b71c1c; /* Dark red background */
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+    display: block;
+}
+
+nav ul li a:hover {
+    background-color: #8b0000; /* Darker red for hover effect */
+}
+
+form {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #444; /* Darker gray for form background */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 10px;
+    color: #fff; /* White text color */
+}
+
+form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #b71c1c; /* Dark red border */
+    border-radius: 5px;
+    background-color: #555; /* Slightly lighter gray for input background */
+    color: #fff; /* White text color */
+}
+
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #b71c1c; /* Dark red button background */
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+form button:hover {
+    background-color: #8b0000; /* Darker red for hover effect */
+}
+
+ul#alarms-list {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0;
+    list-style: none;
+}
+
+ul#alarms-list li {
+    background-color: #444; /* Darker gray for list item background */
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    color: #fff; /* White text color */
+}
